@@ -1,0 +1,70 @@
+<html>
+<head><title>Lesson 3</title>
+    <script type="text/javascript" src="javascript/random.js"></script>
+    <script type="text/javascript" src="javascript/mazaa.js"></script>
+    <script type="text/javascript" src="javascript/lookup.js"></script>
+    <script type="text/javascript" src="javascript/util.js"></script>
+    <script type="text/javascript" src="javascript/template.js"></script>
+    <script type="text/javascript" src="javascript/template_ops.js"></script>
+    <script type="text/javascript" src="javascript/client.js"></script>
+    <script type="text/javascript"
+        src="https://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
+    <!-- Setup the recorder interface -->
+    <script type="text/javascript" src="javascript/recorder.js"></script>
+    <!-- GUI code... -->
+    <script type="text/javascript" src="javascript/gui.js"></script>
+    <script type="text/javascript">
+      var templateManager = null;
+      function prepareLesson(jsonData) {
+        if (!templateManager) {
+          templateManager = new TemplateManager();
+        } 
+        templateManager.applyTemplate(jsonData);
+      }
+      
+      function setupRecorder(id) {
+        Wami.setup({
+          id : id,
+          onReady : function() { setupGUI(id); Wami.hide(); }
+        });
+      }
+
+      function setupGUI(id) {
+      if (Wami.gui) return;
+        Wami.gui = new Wami.GUI({
+          id : id,
+          recordUrl : "/recordaudio?id=" + id,
+          playUrl : "/recordaudio?id=" + id,
+        });
+
+        Wami.gui.setPlayEnabled(false);
+      }
+      
+      function displayWami(id, uploadurl) {
+        var row = document.getElementById(id);
+        var wami = document.getElementById('wami');
+        row.appendChild(wami);
+        var url = 'recordaudio?id=' + id;
+        Wami.gui.setRecordUrl(url);
+        Wami.gui.setPlayUrl(url);
+        //Wami.startRecording(url, null, function() { Wami.startPlaying(url); }, null);
+      }  
+    </script>
+</head>
+<body onload="setupRecorder('wami');fetchAndBindData('/lesson2.data', prepareLesson)">
+<h4>Scene</h4>
+<div id='wami'></div>
+<form action="/recordaudio" method="POST"  enctype="multipart/form-data">
+<table>
+  <tr data-bind-id="allsounds">
+    <td>
+      <img height=100 width=100 xbl2:src="{{answer}}" 
+              onclick="mazaa.playAudio(makeAbsoluteUrl('{{question}}')); displayWami('{{id}}', '/recordaudio');">
+    </td>
+    <td id="{{id}}">
+    </td>
+  </tr>
+</table>
+</form>
+</body>
+</html>

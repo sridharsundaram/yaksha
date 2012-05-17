@@ -1,0 +1,78 @@
+<html>
+  <head>
+    <title>Hindi 1</title>
+    <script type="text/javascript" src="javascript/random.js"></script>
+    <script type="text/javascript" src="javascript/mazaa.js"></script>
+    <script type="text/javascript" src="javascript/lookup.js"></script>
+    <script type="text/javascript" src="javascript/util.js"></script>
+    <script type="text/javascript" src="javascript/template.js"></script>
+    <script type="text/javascript" src="javascript/template_ops.js"></script>
+    <script type="text/javascript" src="javascript/client.js"></script>
+    <script>
+      var templateManager = null;
+      function evalAnswers() {
+        var wordList = templateManager.jsonData['wordList'];
+        var correct = 0;
+        for (var i = 0; i < wordList.length; i++) {
+          var radioboxes = document.forms[0]['id' + wordList[i].id];
+          for (var j = 0; j < radioboxes.length; j++) {
+            if (radioboxes[j].checked) {
+              correct += radioboxes[j].getAttribute('correct') == 'true';
+            }
+          }
+        }
+        prepareQuestions(templateManager.jsonData);
+      }
+      
+      function increaseScore(amt) {
+        var score = document.getElementById('score');
+        score.innerHTML = Math.round(score.innerHTML) + amt;
+      }
+      
+      function showResult(element, question, answer, success) {
+        if (success) {
+          element.parentNode.className = "success";
+          mazaa.playAudio(makeAbsoluteUrl('success.mp3'));
+          increaseScore(10);
+          var done = document.getElementById('done');
+          done.innerHTML += question + ' = ' + answer + '<br>';
+          setTimeout(function() { prepareQuestions(templateManager.jsonData); }, 2000);
+        } else { // failure
+          increaseScore(-5);
+          mazaa.playAudio(makeAbsoluteUrl('failure.mp3'));
+          element.parentNode.className = "failure";
+        }
+      }
+
+      function prepareQuestions(jsonData) {
+        jsonData['wordList'] = createQuestions(jsonData['words'], 1, 
+                                               NUM_ANSWER_CHOICES);
+        if (!templateManager) { // Cannot create until body is loaded
+          templateManager = new TemplateManager();
+        }
+        templateManager.applyTemplate(jsonData);
+      }
+    </script>
+    <link rel="stylesheet" type="text/css" href="stylesheets/mazaa.css">
+  </head>
+  <body onload="fetchAndBindData('/vocabulary?lang=b2a', prepareQuestions)">
+    <h4>Scene</h4>
+    <div>Score: <span id='score'></span></div>
+    <div id="done" style="color: green; float:left;">
+    </done>
+    <font size="+2">
+    <form onsubmit="evalAnswers(); return false;">
+    <div class="album" style="color: blue">
+      <div data-bind-id="wordList" class="qa">
+        <div>{{question}}</div>
+        <div data-bind-id="choices" xbl2:class="{{none}}">
+          <input type="radio" name="id{{id}}" value="{{choice}}" correct="{{correct}}"
+                 onclick="showResult(this, '{{question}}', '{{choice}}', {{correct}});">{{choice}}
+        </div>
+      </div>
+      <!-- <input type="button" value="Next" onclick="evalAnswers()")> -->
+    </div>
+    </form>
+    </font>
+  </body>
+</html>

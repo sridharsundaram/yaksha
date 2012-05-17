@@ -1,0 +1,52 @@
+<html>
+<head>
+<script type="text/javascript" src="random.js">
+</script>
+<script type="text/javascript" src="file:///c:/users/sridhar/jsunit/app/jsUnitCore.js">
+</script>
+<script type="text/javascript">
+
+function testShuffle() {
+  var a = [1, 2, 3, 4];
+  i = 4;
+  var saveRandom = Math.random;
+  Math.random = function() { return 0.5; }
+  shuffle(a);
+  Math.random = saveRandom;
+  assertEquals([3, 1, 4, 2] + '', a + '');
+}
+
+function testCreateChoices() {
+  var a = [1, 2, 3, 4];
+  var choiceIndices = createChoices(0, 3, 4, 2);
+  assertEquals(4, choiceIndices.length);
+}
+
+function ArrayEquals(a, b) {
+  return !(a < b || b < a);
+}
+
+function testCreateQuestions() {
+  var a = [QA.create('a','A'), QA.create('b', 'B'), QA.create('c', 'C'), 
+           QA.create('d', 'D'), QA.create('e', 'E'), QA.create('f', 'F')];
+  i = 4;
+  var saveRandom = Math.random;
+  var saveCreateChoices = createChoices;
+  var saveShuffle = shuffle;
+  shuffle = function(a) { };
+  createChoices = function() { return [4,3,2,1];};
+  Math.random = function() { return 0.5; }
+  var questions = createQuestions(a, 2, 4);
+  Math.random = saveRandom;
+  createChoices = saveCreateChoices;
+  shuffle = saveShuffle;
+  
+  assertTrue(ArrayEquals([QA.create('d', 'D', ['D', 'C', 'B', 'A']), 
+                          QA.create('b', 'A', ['A', 'B', 'C', 'D'])], 
+                         questions));
+}
+</script>
+<head>
+<body>
+</body>
+</html>

@@ -1,0 +1,36 @@
+CACHE MANIFEST
+# 7 feb 2012 v0.193
+lesson1.html
+lesson1.data
+game1.html
+javascript/mazaa.js
+javascript/random.js
+javascript/template.js
+javascript/lookup.js
+javascript/util.js
+javascript/template_ops.js
+javascript/client.js
+stylesheets/mazaa.css
+ATM.jpg
+auto.jpg
+cooldrink.jpg
+doctor.jpg
+hospital.jpg
+large.jpg
+shirt.jpg
+small.jpg
+talk.jpg
+time.jpg 
+ATM.mp3
+auto.mp3
+cooldrink.mp3
+doctor.mp3
+hospital.mp3
+large.mp3
+shirt.mp3
+small.mp3
+talk.mp3
+time.mp3
+sound_icon.jpg
+success.mp3
+failure.mp3
