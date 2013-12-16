@@ -1,7 +1,7 @@
 from google.appengine.api import urlfetch
 from google.appengine.api import users
 from google.appengine.ext import webapp
-import simplejson
+import json as simplejson
 from datamodel.word import Word
 
 """ Handler for importing words from spreadsheet."""

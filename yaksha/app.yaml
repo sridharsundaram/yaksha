@@ -1,15 +1,13 @@
 application: yaksha-sridhar
 version: 11
-runtime: python
+runtime: python27
 api_version: 1
+threadsafe: no
 
 handlers:
 - url: /stylesheets
   static_dir: stylesheets
   mime_type: text/css
-  
-- url: /html5game
-  static_dir: html5game
   
 - url: /(.*\.html)
   static_files: static/\1
@@ -53,7 +51,14 @@ handlers:
   upload: static/audio/ATM.mp3
 
 - url: /.*
-  script: handlers/main.py
+  script: main.application
   login: required
 
-
+libraries:
+- name: webapp2
+  version: "2.5.2"
+  
+#env_variables:
+#  DJANGO_SETTINGS_MODULE = 'settings'
+#  AUTH_DOMAIN = 'test.com'
+  

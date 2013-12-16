@@ -15,8 +15,8 @@ class ProblemTemplate(FormPolydb):
   tags = db.StringListProperty()
   # dictionary mapping from variable name to its domain
   varDomains = {}
-  _DISTRACTORS = ModelProblem._DISTRACTORS.name
-  _ANSWERS = ModelProblem._ANSWERS.name
+  _DISTRACTORS = ModelProblem._DISTRACTORS.name  # @UndefinedVariable
+  _ANSWERS = ModelProblem._ANSWERS.name  # @UndefinedVariable
 
   # @param string modelProblemClassName - name of ModelProblemClass for this template
   # @param string body - String corresponding to body
@@ -94,7 +94,7 @@ class ProblemTemplate(FormPolydb):
     elif questionType =='text' and format =='text':
       qaTemplate = "\nAns:  {% for choice in choiceList %}{% if choice.highlight %}{{choice.text}} {% endif %}{% endfor %}"
 
-    from django.template import Context, Template
+    from google.appengine.ext.webapp.template import Context, Template
     t = Template(qaTemplate)
     c = Context({ 'choiceList': choiceList})
     choices = t.render(c)
@@ -104,7 +104,7 @@ class ProblemTemplate(FormPolydb):
   # @param Symbol unknown - the unknown for which problem is being gnerated
   # @param bool highlightAnswer - whether answer is to be highlighted
   def renderBody(self, name2Value):
-    from django.template import Context, Template
+    from google.appengine.ext.webapp.template import Context, Template
     t = Template(self.body)
     c = Context(name2Value)
     body = t.render(c)

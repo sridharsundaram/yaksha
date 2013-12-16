@@ -12,7 +12,7 @@ class FindTemplate(FormHandler):
     problemName = self.request.params.get('problemName')
     if problemName:
       problem = Category.allProblems[problemName]
-      variableList = [v.name for v in problem.variables]
+      variableList = [v.name for v in problem.varDomains]
       templateList = ProblemTemplate.all().filter("problemName = ", problemName)
     else:
       variableList = []

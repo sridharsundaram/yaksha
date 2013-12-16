@@ -3,7 +3,6 @@ from base.formdb import Formdb
 from sympy.core.numbers import Real
 from sympy.core.numbers import Integer
 from sympy.core.numbers import Rational
-from sympy.core.basic import S
 from google.appengine.ext import db
 import random
 

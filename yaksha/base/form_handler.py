@@ -1,26 +1,26 @@
 import cgi
-from datetime import date, datetime
+from datetime import date
 import os
 import logging
 
+import webapp2
 from google.appengine.ext.webapp import template
 from google.appengine.api import users
-from google.appengine.ext import webapp
 from formdb import Formdb
 
-class FormHandler(webapp.RequestHandler):
+class FormHandler(webapp2.RequestHandler):
   html_form = None
   cls = None
   authorize = False
   template_values = {}
 
-  def get_value(self, form, field, type):
+  def get_value(self, form, field, ttype):
     if not form.has_key(field):
-      return [] if type == 'List' else None
+      return [] if ttype == 'List' else None
 
-    logging.info("Converting field: <" + field + "> of type " + type)
+    logging.info("Converting field: <" + field + "> of type " + ttype)
 
-    if type == 'Blob': # does not work now
+    if ttype == 'Blob': # does not work now
       item = form[field]
       if item.file:
         logging.info("Attachment")
@@ -31,14 +31,14 @@ class FormHandler(webapp.RequestHandler):
     if value == "":
       return None
 
-    if type == 'String':
+    if ttype == 'String':
       return value
-    elif type == 'Date':
+    elif ttype == 'Date':
       d = date(int(value[6:10]), int(value[3:5]), int(value[0:2]))
       return d
-    elif type == 'Boolean':
+    elif ttype == 'Boolean':
       return value == 'on'
-    elif type == 'Integer':
+    elif ttype == 'Integer':
       return int(value)
 
   # @param Formdb item - created or saved item

@@ -41,8 +41,7 @@ from time import strftime
 from google.appengine.ext import db
 from google.appengine.api import memcache
 
-from django.utils import simplejson
-
+import json as simplejson
 # appengine_utilities import
 from rotmodel import ROTModel
 

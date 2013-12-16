@@ -178,11 +178,6 @@ def initTemplatesInDb(force = False):
   Variable(name='num2', domain=ANY_DOMAIN, parent = key).put()
   Variable(name='lcm', domain=ANY_DOMAIN, parent = key).put()
 
-  bodyMonkeysLcm = 'Two monkeys can jump {{num1}} and {{num2}} feet respectively in each hop. They both start from the same place. After how many feet will they both reach the same place?'
-  template = ProblemTemplate(problemName="LcmProblem",
-                             body=bodyMonkeysLcm,
-                             variables=[],
-                             tags=["ramayana", "jump"])
   key = template.put()
   Variable(name='num1', domain=ANY_DOMAIN, parent = key).put()
   Variable(name='num2', domain=ANY_DOMAIN, parent = key).put()
@@ -198,22 +193,23 @@ def initTemplatesInDb(force = False):
   Variable(name='num2', domain=ANY_DOMAIN, parent = key).put()
   Variable(name='lcm', domain=ANY_DOMAIN, parent = key).put()
 
-  bodyBellsLcm = 'In Ayodhya, Vishnu temple rings the bell after every {{num1}} minutes. Shiva temple rings the bell after every {{num2}} minutes. They ring together at 1 PM. After how many minutes will they ring together again?'
+  bodyBellsLcm = 'In Ayodhya, the Vishnu temple rings the bell after every {{num1}} minutes. The Shiva temple rings the bell after every {{num2}} minutes. They ring together at 1 PM. After how many minutes will they ring together again?'
   template = ProblemTemplate(problemName="LcmProblem",
                              body=bodyBellsLcm,
                              variables=[],
-                             tags=["ramayana", "bells"])
+                             tags=["bells"])
   key = template.put()
   Variable(name='num1', domain=ANY_DOMAIN, parent = key).put()
   Variable(name='num2', domain=ANY_DOMAIN, parent = key).put()
   Variable(name='lcm', domain=ANY_DOMAIN, parent = key).put()
 
-  gcd = [1,2,3,4]
-  gcd[0] = "Neela has two pieces of cloth. One piece is {{num1}} inches wide and the other piece is {{num2}} inches wide. She wants to cut both pieces into strips of equal width that are as wide as possible. How wide should she cut the strips?"
-  gcd[1] = "Jambavan has {{num1}} shields and {{num2}} swords to give to his soldiers. What is the largest number of soldiers he can have in his regiment so that each soldier gets equal number of shields and equal number of swords?"
-  gcd[2] = "Nala is making a game board that is {{num1}} inches by {{num2}} inches. She wants  to use square tiles. What is the largest tile she can use?"
-  gcd[3] = "We have to divide {{num1}} bear soldiers and {{num2}} monkey soldiers in rows. We want to mix the bear and monkey soldiers in the rows, but each row must have the same number of bear and monkey soldiers. What is the maximum number of soldiers we can have per row?"
-  for i in range(0,4):
+  gcd = [1,2,3,4,5]
+  gcd[0] = "On a refreshment break, {{num1}} apples and {{num2}} bananas are to be distributed equally among the monkeys. What is the largest number of monkeys so that all monkeys get the same number of apples and all monkeys get the same number of bananas?"
+  gcd[1] = "Jambavan has {{num1}} spades and {{num2}} hammers to distribute to his soldiers. What is the largest number of soldiers he can have in his regiment so that each soldier gets equal number of spades and equal number of hammers?"
+  gcd[2] = "Nala is making a bridge block that is {{num1}} inches wide by {{num2}} inches tall using square tiles. What is the largest tile she can use?"
+  gcd[3] = "We have to divide {{num1}} bear soldiers and {{num2}} monkey soldiers in to construction teams. We want to mix the bear and monkey soldiers in the teams such that each team has the same number of bear and monkey soldiers. What is the maximum number of soldiers we can have per team?"
+  gcd[4] = "The ocean god has placed a key at {{num1}}-feet from the start of the bridge and a chest with magic tools at {{num2}}-feet from the start of the bridge. If Neela jumps x feet each time from the start of the bridge, what should x be such that she can reach both the key and the chest by jumping?"
+  for i in range(0,5):
     template = ProblemTemplate(problemName="GcdProblem",
                                body=gcd[i],
                                variables=[],
@@ -223,12 +219,13 @@ def initTemplatesInDb(force = False):
     Variable(name='num2', domain=ANY_DOMAIN, parent = key).put()
     Variable(name='gcd', domain=ANY_DOMAIN, parent = key).put()
 
-  lcm = [1,2,3,4]
-  lcm[0] = "Angada exercises every {{num1}} days and Jambavan every {{num2}} days. Angada and Jambavan both exercised today. How many days will it be until they exercise together again?"
-  lcm[1] = "Sugriva gave away a magic bow to to every {{num1}}th soldier. Every {{num2}}th soldier received magic arrows. How many soldiers must he get through before one of them receives both a magic bow and a magic arrow?"
-  lcm[2] = "Two bears are running on a circular path. The first runner completes a round in {{num1}} minutes. The second runner completes a round in {{num2}} minutes. If they both started at the same place and time and go in the same direction, after how many minutes will they meet again at the starting point?"
+  lcm = [1,2,3,4,5]
+  lcm[0] = 'Jambhavan builds a segment of the bridge after every {{num1}} minutes and celebrates. Nala builds a segment of the bridge after every {{num2}} minutes and celebrates. If they start at the same time, after how many minutes can they celebrate together?'
+  lcm[1] = "In a refreshment break, Sugriva gives an apple to every {{num1}}th soldier and a banana to every {{num2}}th soldier. How many soldiers must he get through before one of them receives both an apple and a banana?"
+  lcm[2] = "Rama checks on the bridge construction every {{num1}} minutes. Sugriva checks on the status of the construction every {{num2}} minutes. If they both do the first inspection at 8 AM, after how many minutes will they do the inspection together again?"
   lcm[3] = "Nala has {{num1}}-feet pieces of bridge blocks and Neela has {{num2}}-feet pieces of bridge blocks. How many of each piece would each need to build bridges that are equal in length?"
-  for i in range(0,4):
+  lcm[4] = 'Two monkeys can jump {{num1}} and {{num2}} feet respectively in each hop. They both start from the same point. After how many feet will they both meet at the same place?'
+  for i in range(0,5):
     template = ProblemTemplate(problemName="LcmProblem",
                                body=lcm[i],
                                variables=[],
