@@ -1,4 +1,6 @@
+import logging
 import random
+
 from modelproblem import ModelProblem
 from domain import Domain
 from categories import Category
@@ -94,7 +96,7 @@ class ProblemTemplate(FormPolydb):
     elif questionType =='text' and format =='text':
       qaTemplate = "\nAns:  {% for choice in choiceList %}{% if choice.highlight %}{{choice.text}} {% endif %}{% endfor %}"
 
-    from google.appengine.ext.webapp.template import Context, Template
+    from django.template import Context, Template
     t = Template(qaTemplate)
     c = Context({ 'choiceList': choiceList})
     choices = t.render(c)
@@ -104,7 +106,8 @@ class ProblemTemplate(FormPolydb):
   # @param Symbol unknown - the unknown for which problem is being gnerated
   # @param bool highlightAnswer - whether answer is to be highlighted
   def renderBody(self, name2Value):
-    from google.appengine.ext.webapp.template import Context, Template
+    from django.template import Context, Template
+    #from google.appengine.ext.webapp.template import Context, Template
     t = Template(self.body)
     c = Context(name2Value)
     body = t.render(c)
@@ -148,4 +151,5 @@ def GenerateQuestionForModelProblems(modelProblems, domain, tags, questionType, 
     return None
   template = random.choice(templateList)
   
+  logging.info("Generating problem")
   return template.generateProblemStatement(domain, questionType, highlightAnswer, format)

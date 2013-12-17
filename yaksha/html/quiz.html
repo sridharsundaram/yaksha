@@ -5,7 +5,7 @@
 <div>
   <ol>
     {% for problem in problems %}
-      <li>{{problem}}</li>
+      <li>{{problem|safe}}</li>
     {% endfor %}
   </ol>
 </div>

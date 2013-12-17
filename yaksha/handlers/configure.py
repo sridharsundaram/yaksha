@@ -1,5 +1,4 @@
 from base.form_handler import FormHandler
-from appengine_utilities import sessions
 from datamodel.usr import User
 from google.appengine.api import users
 from google.appengine.ext.db import Key
@@ -10,8 +9,8 @@ class Configure(FormHandler):
   cls = User
   authorize = True
   
-  def __init__(self):
-    FormHandler.__init__(self)
+  def __init__(self, request, response):
+    FormHandler.__init__(self, request, response)
     self.user = users.get_current_user()
     self.template_values = {'username': self.user.nickname()}
   

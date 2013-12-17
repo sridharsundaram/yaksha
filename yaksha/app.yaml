@@ -57,8 +57,10 @@ handlers:
 libraries:
 - name: webapp2
   version: "2.5.2"
+- name: django
+  version: "1.2"
   
-#env_variables:
-#  DJANGO_SETTINGS_MODULE = 'settings'
+env_variables:
+  DJANGO_SETTINGS_MODULE: 'settings'
 #  AUTH_DOMAIN = 'test.com'
   

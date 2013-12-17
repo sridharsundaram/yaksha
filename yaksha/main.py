@@ -5,9 +5,14 @@ import sys
 sys.path.insert(0, 'sympy.zip')  # or whatever
 
 import init
+import logging
 import webapp2
+import os
 
+os.environ['DJANGO_SETTINGS_MODULE'] = 'settings'
 #settings._target = None
+from google.appengine.dist import use_library
+use_library('django', '1.2') # Change to a different version as you like
 
 from google.appengine.ext import db
 from base.form_handler import Formdb
@@ -41,6 +46,7 @@ def main():
 
 
 initialize()
+logging.info("initialized")
 application = webapp2.WSGIApplication(
                                        [
                                          ('/', Preferences),
