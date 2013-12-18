@@ -52,7 +52,7 @@ handlers:
 
 - url: /.*
   script: main.application
-  login: required
+#  login: required
 
 libraries:
 - name: webapp2

@@ -1,0 +1,8 @@
+       [
+    {% for problem in problems %}
+         {type: "MCQ1",
+          id: "A1.{{forloop.counter}}",
+          {{problem|safe}}
+         },
+    {% endfor %}
+    ]

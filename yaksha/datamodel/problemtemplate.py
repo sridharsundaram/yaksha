@@ -31,7 +31,7 @@ class ProblemTemplate(FormPolydb):
   # @param string questionType - mc for multiple choice, text for enter text
   # @param bool highlightAnswer - true if answer is to be highlighted
   # @param format - html, text
-  def generateProblemStatement(self, defaultVarDomain, questionType, highlightAnswer, format):
+  def generateProblemStatement(self, defaultVarDomain, questionType, highlightAnswer, outputFormat):
     if not self.varDomains:
       variables = Variable.all().ancestor(self)
       self.varDomains = {}
@@ -53,8 +53,8 @@ class ProblemTemplate(FormPolydb):
     
     distractors = name2Value[self._DISTRACTORS]
     answers = name2Value[self._ANSWERS]
-    body = self.renderBody(name2Value)      
-    answerForm = self.renderAnswers(answers, distractors, modelProblem, modelProblem.unknown, questionType, highlightAnswer, format)
+    body = self.renderBody(name2Value, outputFormat)      
+    answerForm = self.renderAnswers(answers, distractors, modelProblem, modelProblem.unknown, questionType, highlightAnswer, outputFormat)
     return body + answerForm
 
   # @param ModelProblem modelProblem - problem being generated
@@ -74,7 +74,7 @@ class ProblemTemplate(FormPolydb):
   # @param str questonType - mc | text
   # @param bool highlightAnswer - whether answer is to be highlighted
   # @param str format text | html
-  def renderAnswers(self, answers, distractors,  modelProblem, unknown, questionType, highlightAnswer, format):
+  def renderAnswers(self, answers, distractors,  modelProblem, unknown, questionType, highlightAnswer, outputFormat):
     choiceList = []
     if answers != None:
       for answer in answers:
@@ -87,14 +87,16 @@ class ProblemTemplate(FormPolydb):
     random.shuffle(choiceList)
     
     # choose the template for rendering the choices and answers
-    if questionType == 'mc' and format == 'html':
+    if questionType == 'mc' and outputFormat == 'html':
       qaTemplate = "<ol type='a'> {% for choice in choiceList %}\n<li>{% if choice.highlight %}<span style='color:red'>{{choice.text}}</span>{% else %}{{choice.text}}{% endif %}</li>\n {% endfor %} </ol>"
-    elif questionType == 'text' and format == 'html':
+    elif questionType == 'text' and outputFormat == 'html':
       qaTemplate = "<br>Ans:  {% for choice in choiceList %}\n{% if choice.highlight %}{{choice.text}} {% endif %}\n {% endfor %}"
-    elif questionType =='mc' and format == 'text':
+    elif questionType =='mc' and outputFormat == 'text':
       qaTemplate = "{% for choice in choiceList %}\n{% if choice.highlight %}Ans:{% endif %}{{choice.text}}{% endfor %}"
-    elif questionType =='text' and format =='text':
+    elif questionType =='text' and outputFormat =='text':
       qaTemplate = "\nAns:  {% for choice in choiceList %}{% if choice.highlight %}{{choice.text}} {% endif %}{% endfor %}"
+    elif questionType =='mc' and outputFormat =='json':
+      qaTemplate = "\n,options: [ {% for choice in choiceList %}{{choice.text}}, {% endfor %} ],answermask:\"{% for choice in choiceList %}{% if choice.highlight %}1{% else %}0{% endif %}{% endfor %}\""
 
     from django.template import Context, Template
     t = Template(qaTemplate)
@@ -105,12 +107,14 @@ class ProblemTemplate(FormPolydb):
   # @param dict name2Value - dictionary containing parameter values
   # @param Symbol unknown - the unknown for which problem is being gnerated
   # @param bool highlightAnswer - whether answer is to be highlighted
-  def renderBody(self, name2Value):
+  def renderBody(self, name2Value, outputFormat):
     from django.template import Context, Template
     #from google.appengine.ext.webapp.template import Context, Template
     t = Template(self.body)
     c = Context(name2Value)
     body = t.render(c)
+    if outputFormat == 'json':
+      return "goal: \"" + body + "\""
     return body
 
 # @param category - which category to choose problem from

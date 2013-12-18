@@ -18,6 +18,7 @@ from google.appengine.ext import db
 from base.form_handler import Formdb
 from base.form_handler import FormHandler
 from handlers.quiz import Quiz
+from handlers.quiz1 import Quiz1
 from handlers.configure import Configure
 from handlers.template import Template
 from handlers.findtemplate import FindTemplate
@@ -51,6 +52,7 @@ application = webapp2.WSGIApplication(
                                        [
                                          ('/', Preferences),
                                          ('/quiz', Quiz),
+                                         ('/quiz1', Quiz1),
                                          ('/configure', Configure),
                                          ('/template', Template),
                                          ('/findtemplate', FindTemplate),
